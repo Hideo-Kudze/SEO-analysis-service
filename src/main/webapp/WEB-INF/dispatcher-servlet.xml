@@ -1,0 +1,85 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+    <context:component-scan base-package="com.HideoKuzeGits.TestTask"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <mvc:annotation-driven/>
+
+    <mvc:view-controller path="/" view-name="siteInput"/>
+
+    <bean id="handlerMaping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/loadXmlFile">urlFilenameViewController</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="urlFilenameViewController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/pages/</value>
+        </property>
+
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+
+    </bean>
+
+    <context:property-placeholder location="classpath:limits.properties"/>
+
+
+    <bean class="com.HideoKuzeGits.TestTask.google.search.GoogleSearchApi">
+        <property name="delayBetweenRequests" value="${google.search.request.delay}"/>
+        <property name="retries" value="${google.search.retries}"/>
+        <property name="maxResultCount" value="${maxResultCount}"/>
+        <property name="userAgent" value="${userAgent}"/>
+        <property name="oneTryAwaitMinutes" value="${google.search.oneTryAwaitMinutes}"/>
+    </bean>
+
+
+    <bean class="com.HideoKuzeGits.TestTask.MyThreadPool">
+        <property name="maxThreadsInThePool" value="${thread.pool.size}" />
+        <property name="awaitTerminationMinutes" value="${thread.pool.await.termination.minutes}"/>
+    </bean>
+
+    <bean class="com.HideoKuzeGits.TestTask.spider.SpiderService">
+        <property name="maxResultCount" value="${maxResultCount}"/>
+        <property name="maxThreadsInThePool" value="${thread.pool.size}" />
+        <property name="awaitTerminationMinutes" value="${thread.pool.await.termination.minutes}"/>
+    </bean>
+
+    <bean class="com.HideoKuzeGits.TestTask.procesSite.ProcessSiteServiceAsyncWrap">
+        <property name="domainProcessed" value="${domain.processed}"/>
+        <property name="domainProcessedAtTheSameTime" value="${domain.processed.at.the.same.time}" />
+    </bean>
+
+    <bean class="com.HideoKuzeGits.TestTask.google.pageSpeed.PageSpeedService">
+        <property name="delayBetweenRequests" value="${page.speed.request.delay}"/>
+        <property name="retries" value="${page.speed.retries}"/>
+    </bean>
+
+    <bean class="com.HideoKuzeGits.TestTask.google.captcha.CaptchaPassService">
+        <property name="userAgent" value="${userAgent}"/>
+    </bean>
+
+
+
+</beans>
