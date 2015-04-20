@@ -5,18 +5,18 @@ This assignment was completed as self testing during my student years.
 The program obtains and shows PR (Page Rank),  TCI Thematic Citation Index. The program obtains data through the use of a crawler which picks a predetermined number of pages and performs analysis. Each page is checked to determine the following values:
 
 
-1. Is it indexed by Google?
+1. Is it indexed by Google.
 
-2. Are there, if any, broken links?
-
-
-3. PageSpeed statistics,
+2. Are there, if any, broken links.
 
 
-4. Are there "keywords" and "description" meta tags?
+3. PageSpeed statistics.
 
 
-5. Is the checked page a clone of a page crawled earlier?
+4. Are there "keywords" and "description" meta tags.
+
+
+5. Is the checked page a clone of a page crawled earlier.
 
 
 6. Duplicate / Similar content.
